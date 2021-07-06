@@ -507,6 +507,7 @@ class Message(object):
         return bool(self._codecs['multiplexers'])
 
     def _check_signal(self, message_bits, signal):
+        import warnings
         signal_bits = signal.length * [signal.name]
 
         if signal.byte_order == 'big_endian':
@@ -538,7 +539,7 @@ class Message(object):
         for offset, signal_bit in enumerate(signal_bits):
             if signal_bit is not None:
                 if message_bits[offset] is not None:
-                    raise Error(
+                    warnings.warn(
                         'The signals {} and {} are overlapping in message {}.'.format(
                             signal.name,
                             message_bits[offset],
